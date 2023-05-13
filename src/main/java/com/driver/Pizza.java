@@ -6,60 +6,71 @@ public class Pizza {
     private Boolean isVeg;
     private String bill;
 
-    private boolean extraCheese=false;
-    private boolean isExtraToppinsVeg=false;
-    private boolean isExtraToppinsNonVeg=false;
-    private boolean paperBag=false;
+    private boolean exChees = false;
+    private boolean exTopingVeg = false;
+    private boolean exTopingNonVeg = false;
+    private boolean bagData = false;
 
     final int vegPizza = 300;
     final int nonVegPizza = 400;
     final int extraCheesePrice = 80;
-    final int extraToppinsVeg = 70;
-    final int extraToppinsNonVeg = 120;
+    final int exTopingsPriceVeg = 70;
+    final int exTopingsPriceNonVeg = 120;
     final int bag = 20;
 
-    public Pizza(Boolean isVeg){
+    public Pizza(Boolean isVeg) {
+
         this.isVeg = isVeg;
-        if(isVeg){
-            this.price=300;
+        if (isVeg) {
+            this.price = 300;
+        } else {
+            this.price = 400;
+
         }
-        else{
-            this.price=400;
-        }
+
     }
 
-    public int getPrice(){
+    public int getPrice() {
+
         return this.price;
     }
 
-    public void addExtraCheese(){
-        if(!extraCheese){
-            this.price=this.price+extraCheesePrice;
-            extraCheese=true;
+    public void addExtraCheese() {
+
+        if (!exChees) {
+            this.price = this.price + extraCheesePrice;
+            exChees = true;
+
+        }
+
+    }
+
+    public void addExtraToppings() {
+
+        if (!exTopingVeg && isVeg) {
+            this.price = this.price + exTopingsPriceVeg;
+            exTopingVeg = true;
+            exChees = true;
+
+        } else if (!exTopingNonVeg && !isVeg) {
+            this.price = this.price + exTopingsPriceNonVeg;
+            exTopingNonVeg = true;
+            exChees = true;
+
+        }
+
+    }
+
+    public void addTakeaway() {
+
+        if (!bagData) {
+            bagData = true;
+            this.price = this.price + bag;
         }
     }
 
-    public void addExtraToppings(){
-        if(!isExtraToppinsVeg && isVeg){
-            this.price=this.price+extraToppinsVeg;
-            isExtraToppinsVeg=true;
-            extraCheese=true;
-        }
-        else if(!isExtraToppinsNonVeg && !isVeg){
-            this.price=this.price+extraToppinsNonVeg;
-            isExtraToppinsNonVeg=true;
-            extraCheese=true;
-        }
-    }
+    public String getBill() {
 
-    public void addTakeaway(){
-        if(!paperBag){
-            paperBag=true;
-            this.price=this.price+bag;
-        }
-    }
-
-    public String getBill(){
         if (isVeg) {
             this.bill = "Base Price Of The Pizza: " + vegPizza + "\n";
         } else {
@@ -67,22 +78,23 @@ public class Pizza {
 
         }
 
-        if (extraCheese) {
+        if (exChees) {
             this.bill = this.bill + "Extra Cheese Added: " + extraCheesePrice + "\n";
         }
 
-        if (isVeg && isExtraToppinsVeg) {
-            this.bill = this.bill + "Extra Toppings Added: " + extraToppinsVeg + "\n";
-        } else if (!isVeg && isExtraToppinsVeg) {
-            this.bill = this.bill + "Extra Toppings Added: " + extraToppinsNonVeg + "\n";
+        if (isVeg && exTopingVeg) {
+            this.bill = this.bill + "Extra Toppings Added: " + exTopingsPriceVeg + "\n";
+        } else if (!isVeg && exTopingNonVeg) {
+            this.bill = this.bill + "Extra Toppings Added: " + exTopingsPriceNonVeg + "\n";
 
         }
 
-        if (paperBag) {
+        if (bagData) {
             this.bill = this.bill + "Paperbag Added: " + bag + "\n";
         }
 
         this.bill = this.bill + "Total Price: " + this.price + "\n";
+
         return this.bill;
     }
 }
